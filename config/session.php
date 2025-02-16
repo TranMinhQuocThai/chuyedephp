@@ -9,12 +9,12 @@ return [
     | Default Session Driver
     |--------------------------------------------------------------------------
     |
-    | This option controls the default session "driver" that will be used on
-    | requests. By default, we will use the lightweight native driver but
-    | you may specify any of the other wonderful drivers provided here.
+    | Tùy chọn này xác định "driver" session mặc định sẽ được sử dụng trên
+    | các request. Mặc định, Laravel sử dụng driver "file" nhẹ, nhưng bạn
+    | có thể chỉ định bất kỳ driver tuyệt vời nào khác được cung cấp ở đây.
     |
-    | Supported: "file", "cookie", "database", "apc",
-    |            "memcached", "redis", "dynamodb", "array"
+    | Hỗ trợ: "file", "cookie", "database", "apc",
+    |          "memcached", "redis", "dynamodb", "array"
     |
     */
 
@@ -25,9 +25,9 @@ return [
     | Session Lifetime
     |--------------------------------------------------------------------------
     |
-    | Here you may specify the number of minutes that you wish the session
-    | to be allowed to remain idle before it expires. If you want them
-    | to immediately expire on the browser closing, set that option.
+    | Tại đây, bạn có thể xác định số phút mà bạn muốn session
+    | được phép duy trì trước khi hết hạn. Nếu bạn muốn chúng
+    | hết hạn ngay khi đóng trình duyệt, hãy đặt tùy chọn này.
     |
     */
 
@@ -40,9 +40,9 @@ return [
     | Session Encryption
     |--------------------------------------------------------------------------
     |
-    | This option allows you to easily specify that all of your session data
-    | should be encrypted before it is stored. All encryption will be run
-    | automatically by Laravel and you can use the Session like normal.
+    | Tùy chọn này cho phép bạn dễ dàng xác định rằng tất cả dữ liệu session
+    | nên được mã hóa trước khi lưu trữ. Tất cả việc mã hóa sẽ được Laravel
+    | thực hiện tự động và bạn có thể sử dụng Session như bình thường.
     |
     */
 
@@ -53,9 +53,9 @@ return [
     | Session File Location
     |--------------------------------------------------------------------------
     |
-    | When using the native session driver, we need a location where session
-    | files may be stored. A default has been set for you but a different
-    | location may be specified. This is only needed for file sessions.
+    | Khi sử dụng driver session "file", chúng ta cần một vị trí nơi các file
+    | session có thể được lưu trữ. Mặc định đã được thiết lập cho bạn, nhưng
+    | bạn có thể chỉ định một vị trí khác nếu cần. Chỉ cần cho các session file.
     |
     */
 
@@ -66,22 +66,22 @@ return [
     | Session Database Connection
     |--------------------------------------------------------------------------
     |
-    | When using the "database" or "redis" session drivers, you may specify a
-    | connection that should be used to manage these sessions. This should
-    | correspond to a connection in your database configuration options.
+    | Khi sử dụng driver session "database" hoặc "redis", bạn có thể chỉ định
+    | kết nối nào nên được sử dụng để quản lý các session này. Điều này nên
+    | tương ứng với một kết nối trong các tùy chọn cấu hình database của bạn.
     |
     */
 
-    'connection' => env('SESSION_CONNECTION'),
+    'connection' => env('SESSION_CONNECTION', null),
 
     /*
     |--------------------------------------------------------------------------
     | Session Database Table
     |--------------------------------------------------------------------------
     |
-    | When using the "database" session driver, you may specify the table we
-    | should use to manage the sessions. Of course, a sensible default is
-    | provided for you; however, you are free to change this as needed.
+    | Khi sử dụng driver session "database", bạn có thể chỉ định bảng nào
+    | chúng ta nên sử dụng để quản lý các session. Tất nhiên, một mặc định
+    | hợp lý đã được cung cấp cho bạn; tuy nhiên, bạn có thể thay đổi nếu cần.
     |
     */
 
@@ -92,24 +92,24 @@ return [
     | Session Cache Store
     |--------------------------------------------------------------------------
     |
-    | While using one of the framework's cache driven session backends you may
-    | list a cache store that should be used for these sessions. This value
-    | must match with one of the application's configured cache "stores".
+    | Khi sử dụng một trong các backend session được hỗ trợ bởi cache của framework,
+    | bạn có thể liệt kê một cache store nên được sử dụng cho các session này.
+    | Giá trị này phải khớp với một trong các "stores" cache được cấu hình của ứng dụng.
     |
-    | Affects: "apc", "dynamodb", "memcached", "redis"
+    | Ảnh hưởng: "apc", "dynamodb", "memcached", "redis"
     |
     */
 
-    'store' => env('SESSION_STORE'),
+    'store' => env('SESSION_STORE', null),
 
     /*
     |--------------------------------------------------------------------------
     | Session Sweeping Lottery
     |--------------------------------------------------------------------------
     |
-    | Some session drivers must manually sweep their storage location to get
-    | rid of old sessions from storage. Here are the chances that it will
-    | happen on a given request. By default, the odds are 2 out of 100.
+    | Một số driver session phải quét thủ công vị trí lưu trữ của chúng để loại bỏ
+    | các session cũ khỏi lưu trữ. Dưới đây là tỷ lệ mà việc quét sẽ xảy ra
+    | trên một request nhất định. Mặc định, tỷ lệ là 2 trên 100.
     |
     */
 
@@ -120,9 +120,9 @@ return [
     | Session Cookie Name
     |--------------------------------------------------------------------------
     |
-    | Here you may change the name of the cookie used to identify a session
-    | instance by ID. The name specified here will get used every time a
-    | new session cookie is created by the framework for every driver.
+    | Tại đây, bạn có thể thay đổi tên của cookie được sử dụng để xác định
+    | một session instance theo ID. Tên được chỉ định ở đây sẽ được sử dụng
+    | mỗi khi một cookie session mới được tạo bởi framework cho mỗi driver.
     |
     */
 
@@ -136,9 +136,9 @@ return [
     | Session Cookie Path
     |--------------------------------------------------------------------------
     |
-    | The session cookie path determines the path for which the cookie will
-    | be regarded as available. Typically, this will be the root path of
-    | your application but you are free to change this when necessary.
+    | Đường dẫn cookie session xác định đường dẫn mà cookie sẽ
+    | được coi là khả dụng. Thông thường, đây sẽ là đường dẫn gốc của
+    | ứng dụng của bạn, nhưng bạn có thể thay đổi khi cần thiết.
     |
     */
 
@@ -149,35 +149,35 @@ return [
     | Session Cookie Domain
     |--------------------------------------------------------------------------
     |
-    | Here you may change the domain of the cookie used to identify a session
-    | in your application. This will determine which domains the cookie is
-    | available to in your application. A sensible default has been set.
+    | Tại đây, bạn có thể thay đổi domain của cookie được sử dụng để xác định
+    | một session trong ứng dụng của bạn. Điều này sẽ xác định domain nào
+    | cookie sẽ khả dụng trong ứng dụng của bạn. Một mặc định hợp lý đã được thiết lập.
     |
     */
 
-    'domain' => env('SESSION_DOMAIN'),
+    'domain' => env('SESSION_DOMAIN', null),
 
     /*
     |--------------------------------------------------------------------------
     | HTTPS Only Cookies
     |--------------------------------------------------------------------------
     |
-    | By setting this option to true, session cookies will only be sent back
-    | to the server if the browser has a HTTPS connection. This will keep
-    | the cookie from being sent to you when it can't be done securely.
+    | Bằng cách đặt tùy chọn này thành true, cookie session sẽ chỉ được gửi lại
+    | đến server nếu trình duyệt có kết nối HTTPS. Điều này sẽ giữ cho
+    | cookie không được gửi đến bạn khi không thể thực hiện một cách an toàn.
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    'secure' => env('SESSION_SECURE_COOKIE', false),
 
     /*
     |--------------------------------------------------------------------------
     | HTTP Access Only
     |--------------------------------------------------------------------------
     |
-    | Setting this value to true will prevent JavaScript from accessing the
-    | value of the cookie and the cookie will only be accessible through
-    | the HTTP protocol. You are free to modify this option if needed.
+    | Đặt giá trị này thành true sẽ ngăn JavaScript truy cập vào
+    | giá trị của cookie và cookie sẽ chỉ có thể truy cập thông qua
+    | giao thức HTTP. Bạn có thể thay đổi tùy chọn này nếu cần.
     |
     */
 
@@ -188,11 +188,11 @@ return [
     | Same-Site Cookies
     |--------------------------------------------------------------------------
     |
-    | This option determines how your cookies behave when cross-site requests
-    | take place, and can be used to mitigate CSRF attacks. By default, we
-    | will set this value to "lax" since this is a secure default value.
+    | Tùy chọn này xác định cách cookie của bạn hoạt động khi các request
+    | cross-site diễn ra, và có thể được sử dụng để giảm thiểu các cuộc tấn công CSRF.
+    | Mặc định, chúng tôi sẽ đặt giá trị này thành "lax" vì đây là giá trị mặc định an toàn.
     |
-    | Supported: "lax", "strict", "none", null
+    | Hỗ trợ: "lax", "strict", "none", null
     |
     */
 
