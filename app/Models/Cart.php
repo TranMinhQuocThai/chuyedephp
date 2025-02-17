@@ -20,6 +20,10 @@ class Cart extends Model
     {
         return $this->belongsTo(Food::class);
     }
+    public function drink()
+    {
+        return $this->belongsTo(Drink::class);
+    }
 
     // Định nghĩa quan hệ với model User
     public function user()

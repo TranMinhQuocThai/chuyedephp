@@ -24,7 +24,7 @@ Route::delete('/foods/{id}', [FoodController::class, 'destroy']);
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/sanpham', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/sanpham', [App\Http\Controllers\HomeController::class, 'sanpham'])->name('home');
 Route::get('/gioithieu', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // routes/web.php
@@ -32,5 +32,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
     Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
     Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
+    ;
 });
 

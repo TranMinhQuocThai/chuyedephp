@@ -18,6 +18,7 @@
                 </div>
              
             </div>
+            <div style="font-size: 50px;" >Đề xuất</div>
             <div class="row">
             @foreach($foods as $food)
     <div class="col-md-4 mb-4">

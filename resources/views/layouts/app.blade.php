@@ -45,11 +45,13 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Nút Giỏ Hàng -->
+                      @if(Auth::user())
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/cart') }}">
                                 🛒 Giỏ hàng (<span id="cart-count">0</span>)
                             </a>
                         </li>
+                      @endif
 
                         <!-- Authentication Links -->
                         @guest
