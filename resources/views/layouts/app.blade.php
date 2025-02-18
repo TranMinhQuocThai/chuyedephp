@@ -84,6 +84,11 @@
                                     </form>
                                 </div>
                             </li>
+                            @if(Auth::user()->name == 'TranMinhQuocThai')
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('/Food') }}">Admin</a>
+                                </li>
+                            @endif
                         @endguest
                     </ul>
                 </div>

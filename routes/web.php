@@ -36,3 +36,12 @@ Route::group(['middleware' => ['web']], function () {
     ;
 });
 
+
+
+//router cho cơ sở dữ liệu
+Route::get('/Food', [FoodController::class, 'index'])->name('food.index');
+Route::get('/Food/create', [FoodController::class, 'create'])->name('food.create');
+Route::post('/Food/store', [FoodController::class, 'store'])->name('food.store');
+Route::delete('/Food/{id}', [FoodController::class, 'destroy'])->name('food.destroy'); // Xóa đơn hàng
+Route::get('/Food/{id}/edit', [FoodController::class, 'edit'])->name('food.edit'); // Hiển thị form sửa đơn hàng
+Route::put('/Food/{id}', [FoodController::class, 'update'])->name('food.update'); // Cập nhật thông tin đơn hàng

@@ -2,32 +2,94 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Food;
 use Illuminate\Http\Request;
+use App\Models\Food;
+use Illuminate\Support\Facades\Storage;
 
 class FoodController extends Controller
 {
     public function index() {
-        return Food::all();
+        $foods = Food::all();
+        return view('food.index', compact('foods'));
     }
 
-    public function show($id) {
-        return Food::findOrFail($id);
+    public function create() {
+        return view('food.create');
     }
 
-    public function store(Request $request) {
-        $food = Food::create($request->all());
-        return response()->json($food, 201);
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'categories' => 'required|string',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+        } else {
+            $imagePath = null;
+        }
+
+        Food::create([
+            'name' => $validatedData['name'],
+            'description' => $validatedData['description'],
+            'price' => $validatedData['price'],
+            'image' => $imagePath,
+            'categories' => $validatedData['categories'],
+        ]);
+
+        return redirect()->route('food.index')->with('success', 'Thêm món ăn thành công.');
     }
 
-    public function update(Request $request, $id) {
+    public function edit($id)
+    {
         $food = Food::findOrFail($id);
-        $food->update($request->all());
-        return response()->json($food, 200);
+        return view('food.edit', compact('food'));
     }
 
-    public function destroy($id) {
-        Food::findOrFail($id)->delete();
-        return response()->json(null, 204);
+    public function update(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'categories' => 'required|string',
+        ]);
+
+        $food = Food::findOrFail($id);
+
+        if ($request->hasFile('image')) {
+            if ($food->image) {
+                Storage::disk('public')->delete($food->image);
+            }
+            $imagePath = $request->file('image')->store('images', 'public');
+        } else {
+            $imagePath = $food->image;
+        }
+
+        $food->update([
+            'name' => $validatedData['name'],
+            'description' => $validatedData['description'],
+            'price' => $validatedData['price'],
+            'image' => $imagePath,
+            'categories' => $validatedData['categories'],
+        ]);
+
+        return redirect()->route('food.index')->with('success', 'Cập nhật món ăn thành công.');
+    }
+
+    public function destroy($id)
+    {
+        $food = Food::findOrFail($id);
+        if ($food->image) {
+            Storage::disk('public')->delete($food->image);
+        }
+        $food->delete();
+
+        return redirect()->route('food.index')->with('success', 'Xóa món ăn thành công.');
     }
 }
