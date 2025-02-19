@@ -6,10 +6,7 @@
 @section('content')
     <div class="card shadow mb-4">
         <div>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                <i class="fas fa-download fa-sm text-white-50"></i> Generate Report
-            </a>
-            <a href="{{ route('food.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <a href="{{ route('food.create') }}" class="d-none d-sm-inline-block btn btn-danger shadow-sm">
                 <i class="fas fa-plus fa-sm text-white-50"></i> Thêm món ăn
             </a>
         </div>

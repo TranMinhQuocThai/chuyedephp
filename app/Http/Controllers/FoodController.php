@@ -14,7 +14,9 @@ class FoodController extends Controller
     }
 
     public function create() {
-        return view('food.create');
+        $food = new Food(); // Tạo một đối tượng trống để tránh lỗi
+
+        return view('food.create', compact('food'));
     }
 
     public function store(Request $request)
@@ -40,7 +42,6 @@ class FoodController extends Controller
             'image' => $imagePath,
             'categories' => $validatedData['categories'],
         ]);
-
         return redirect()->route('food.index')->with('success', 'Thêm món ăn thành công.');
     }
 

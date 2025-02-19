@@ -17,7 +17,6 @@
         </ul>
       </div>
     @endif
-
     <form action="{{ route('food.update', $food->id) }}" method="POST" enctype="multipart/form-data">
       @csrf
       @method('PUT')
@@ -90,7 +89,7 @@
         </div>
         @enderror
       </div>
-      <button type="submit" class="btn btn-primary">Cập nhật</button>
+      <button type="submit" class="btn btn-danger">Cập nhật</button>
       <a href="{{ route('food.index') }}" class="btn btn-secondary">Quay lại</a>
     </form>
   </div>

@@ -24,7 +24,7 @@
             <tbody>
                 @foreach($cartItems as $item)
                     <tr>
-                        <td><img src="{{ asset('images/' . $item->food->image) }}" alt="{{ $item->food->name }}" width="50"></td>
+                        <td><img src="{{ asset('storage/' . $item->food->image) }}" alt="{{ $item->food->name }}" width="50"></td>
                         <td>{{ $item->food->name }}</td>
                         <td>{{ number_format($item->food->price, 0, ',', '.') }} VND</td>
                         <td>{{ $item->quantity }}</td>
