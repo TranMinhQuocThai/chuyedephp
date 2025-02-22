@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
-
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,16 +16,13 @@ use App\Http\Controllers\CartController;
 */
 use App\Http\Controllers\FoodController;
 
-Route::get('/foods', [FoodController::class, 'index']);
-Route::get('/foods/{id}', [FoodController::class, 'show']);
-Route::post('/foods', [FoodController::class, 'store']);
-Route::put('/foods/{id}', [FoodController::class, 'update']);
-Route::delete('/foods/{id}', [FoodController::class, 'destroy']);
+
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/sanpham', [App\Http\Controllers\HomeController::class, 'sanpham'])->name('home');
 Route::get('/gioithieu', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/donhang', [App\Http\Controllers\HomeController::class, 'donhang'])->name('home');
 
 // routes/web.php
 Route::group(['middleware' => ['web']], function () {
@@ -45,3 +42,14 @@ Route::post('/Food/store', [FoodController::class, 'store'])->name('food.store')
 Route::delete('/Food/{id}', [FoodController::class, 'destroy'])->name('food.destroy'); // Xóa đơn hàng
 Route::get('/Food/{id}/edit', [FoodController::class, 'edit'])->name('food.edit'); // Hiển thị form sửa đơn hàng
 Route::put('/Food/{id}', [FoodController::class, 'update'])->name('food.update'); // Cập nhật thông tin đơn hàng
+
+Route::get('/order', [OrderController::class, 'index'])->name('orders.index');
+Route::get('/order/create', [OrderController::class, 'create'])->name('orders.create');
+Route::post('/order/store', [OrderController::class, 'store'])->name('orders.store');
+Route::delete('/order/{id}', [OrderController::class, 'destroy'])->name('orders.destroy'); // Xóa đơn hàng
+Route::get('/order/{id}/edit', [OrderController::class, 'edit'])->name('orders.edit'); // Hiển thị form sửa đơn hàng
+Route::put('/order/{id}', [OrderController::class, 'update'])->name('orders.update'); // Cập nhật thông tin đơn hàng
+Route::put('/orders/{id}/mark-delivered', [OrderController::class, 'markDelivered'])->name('orders.markDelivered');
+Route::delete('/ordersadmin/{id}', [OrderController::class, 'adminDestroy'])->name('ordersadmin.destroy'); // Xóa đơn hàng
+Route::get('/orders/{id}/details', [OrderController::class, 'getOrderDetails']);
+

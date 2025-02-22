@@ -8,7 +8,9 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Foodstore</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -17,12 +19,16 @@
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
+<!-- jQuery và Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}" style="font-size: 26px; font-weight: bold; text-align: center; color: #FF6F61;">
+                <a class="navbar-brand" href="{{ url('/') }}"
+                    style="font-size: 26px; font-weight: bold; text-align: center; color: #FF6F61;">
                     FoodStore
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -45,13 +51,18 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Nút Giỏ Hàng -->
-                      @if(Auth::user())
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/cart') }}">
-                                🛒 Giỏ hàng (<span id="cart-count">0</span>)
-                            </a>
-                        </li>
-                      @endif
+                        @if(Auth::user())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/cart') }}">
+                                    🛒 Giỏ hàng
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/donhang') }}">
+                                    Đơn hàng
+                                </a>
+                            </li>
+                        @endif
 
                         <!-- Authentication Links -->
                         @guest
@@ -75,7 +86,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();">
+                                                             document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
@@ -85,9 +96,17 @@
                                 </div>
                             </li>
                             @if(Auth::user()->name == 'TranMinhQuocThai')
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('/Food') }}">Admin</a>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        Admin
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                                        <li><a class="dropdown-item" href="{{ url('/Food') }}">Quản lý sản phẩm</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('/order') }}">Quản lý đơn hàng</a></li>
+                                    </ul>
                                 </li>
+
                             @endif
                         @endguest
                     </ul>

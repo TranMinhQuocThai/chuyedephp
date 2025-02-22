@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Food;
-use App\Models\Drink;
+use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -33,4 +34,11 @@ class HomeController extends Controller
         $drinks= Food::where('categories', 'drink')->get();
         return view('sanpham',compact('foods', 'drinks'));
     }
+
+    public function donhang()
+{
+    // Lấy danh sách đơn hàng của người dùng hiện tại
+    $orders = Order::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
+    return view('donhang', compact('orders'));
+}
 }

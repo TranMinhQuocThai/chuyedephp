@@ -44,7 +44,7 @@
                                 <td>{{ $food->price }}</td>
                                 <td>
                                     @if($food->image)
-                                        <img src="{{ asset('storage/' . $food->image) }}" alt="{{ $food->name }}" width="50">
+                                        <img src="{{ asset('storage/' . $food->image) }}" alt="{{ $food->name }}" width="100">
                                     @else
                                         Không có ảnh
                                     @endif
