@@ -29,11 +29,23 @@ class HomeController extends Controller
         $foods = Food::limit(15)->get();
         return view('home',compact('foods'));
     }
-    public function sanpham(){
-        $foods = Food::where('categories', 'food')->get();
-        $drinks= Food::where('categories', 'drink')->get();
-        return view('sanpham',compact('foods', 'drinks'));
+    public function sanpham(Request $request)
+    {
+        $search = $request->input('search');
+    
+        $foods = Food::where('categories', 'food')
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            })->get();
+    
+        $drinks = Food::where('categories', 'drink')
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            })->get();
+    
+        return view('sanpham', compact('foods', 'drinks', 'search'));
     }
+    
 
     public function donhang()
 {

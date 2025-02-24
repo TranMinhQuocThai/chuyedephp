@@ -20,9 +20,9 @@ use App\Http\Controllers\FoodController;
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/sanpham', [App\Http\Controllers\HomeController::class, 'sanpham'])->name('home');
-Route::get('/gioithieu', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/donhang', [App\Http\Controllers\HomeController::class, 'donhang'])->name('home');
+Route::get('/sanpham', [App\Http\Controllers\HomeController::class, 'sanpham'])->name('sanpham');
+Route::get('/gioithieu', [App\Http\Controllers\HomeController::class, 'index'])->name('gioithieu');
+Route::get('/donhang', [App\Http\Controllers\HomeController::class, 'donhang'])->name('donhang');
 
 // routes/web.php
 Route::group(['middleware' => ['web']], function () {

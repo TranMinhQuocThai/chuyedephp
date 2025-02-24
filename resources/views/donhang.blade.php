@@ -30,7 +30,7 @@
                         <td>{{ $order->phone }}</td>
                         <td>{{ $order->address }}</td>
                         <td>{{ $order->payment_method }}</td>
-                        <td>{{ number_format($order->total_amount, 3, ',', '.') }} VND</td>
+                        <td>{{ number_format($order->total_amount, 0, ',', '.') }} VND</td>
                         <td>
                             @if ($order->order_status === 'Chưa giao')
                                 <span class="badge bg-warning">Chưa giao</span>
