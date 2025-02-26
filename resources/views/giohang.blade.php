@@ -71,22 +71,16 @@
                 <form action={{ route('orders.store') }} method="POST">
                     @csrf
 
-                    <!-- Mã hóa đơn -->
-                    <div class="mb-3">
-                        <label for="order_code" class="form-label">Mã hóa đơn</label>
-                        <input type="text" class="form-control" name="order_code" value="{{ $orderCode }}" readonly>
-                    </div>
-
                     <!-- Tên người dùng -->
                     <div class="mb-3">
                         <label for="name" class="form-label">Tên</label>
-                        <input type="text" class="form-control" name="name" value="{{ Auth::user()->name ?? '' }}" required>
+                        <input type="text" class="form-control" name="name" value="{{ Auth::user()->name ?? '' }}" required disabled>
                     </div>
 
                     <!-- Email -->
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email" value="{{ Auth::user()->email ?? '' }}" required>
+                        <input type="email" class="form-control" name="email" value="{{ Auth::user()->email ?? '' }}" required disabled>
                     </div>
 
                     <!-- Số điện thoại -->
@@ -134,4 +128,5 @@
     @else
         <p>Giỏ hàng của bạn đang trống.</p>
     @endif
+    @include('layouts.footer');
 @endsection

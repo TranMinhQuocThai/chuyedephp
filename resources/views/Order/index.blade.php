@@ -48,10 +48,10 @@
                                 <td>{{ $order->payment_method }}</td>
                                 <td>{{ number_format($order->total_amount, 0, ',', '.') }} VND</td>
                                 <td>
-                                    @if ($order->order_status === 'Đã giao')
-                                        <span class="badge bg-success">Đã giao</span>
+                                    @if ($order->order_status === 'Đã gửi')
+                                        <span class="badge bg-success">Đã gửi</span>
                                     @else
-                                        <span class="badge bg-warning">Chưa giao</span>
+                                        <span class="badge bg-warning">Chưa gửi</span>
                                     @endif
                                 </td>
                                 <td>
@@ -59,15 +59,20 @@
                                     <button class="btn btn-info btn-sm" data-bs-toggle="modal"
                                         data-bs-target="#orderDetailModal"
                                         onclick="loadOrderDetails({{ $order->id }})">Chi tiết</button>
-                                    @if ($order->order_status === 'Chưa giao')
+
+                           
+
+                                    <!-- Nút Đã gửi -->
+                                    @if ($order->order_status === 'Chưa gửi')
                                         <form action="{{ route('orders.markDelivered', $order->id) }}" method="POST"
                                             style="display:inline-block;">
                                             @csrf
                                             @method('PUT')
-                                            <button type="submit" class="btn btn-success btn-sm">Đã giao</button>
+                                            <button type="submit" class="btn btn-success btn-sm">Đã gửi</button>
                                         </form>
                                     @endif
 
+                                    <!-- Nút Xóa -->
                                     <form action="{{ route('ordersadmin.destroy', $order->id) }}" method="POST"
                                         onsubmit="return confirm('Bạn có chắc chắn muốn xóa đơn hàng này?')"
                                         style="display:inline-block;">
@@ -102,8 +107,29 @@
         </div>
     </div>
 
-    <!-- Script để load chi tiết -->
+    <!-- Modal QR Code Thanh toán -->
+    <div class="modal fade" id="qrCodeModal" tabindex="-1" aria-labelledby="qrCodeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="qrCodeModalLabel">QR Code Thanh toán</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>Quét mã QR bên dưới để thanh toán:</p>
+                    <img id="qrCodeImage" src="" alt="QR Code" class="img-fluid" style="max-width: 300px;">
+                    <p class="mt-2">Số tiền: <strong id="qrAmount"></strong> VND</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script để xử lý -->
     <script>
+        // Load chi tiết đơn hàng
         function loadOrderDetails(orderId) {
             fetch(`/orders/${orderId}/details`)
                 .then(response => response.json())
@@ -119,5 +145,7 @@
                     document.getElementById('orderDetailContent').innerHTML = '<p>Không thể tải chi tiết đơn hàng.</p>';
                 });
         }
+
+        
     </script>
 @endsection

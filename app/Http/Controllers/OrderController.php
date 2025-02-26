@@ -28,24 +28,21 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         DB::beginTransaction();
-    
         try {
-            // 1. Tạo đơn hàng mới
+            // 1. Thêm đơn hàng vào bảng 'orders'
             $order = Order::create([
-                'order_code' => $request->order_code,
                 'user_id' => Auth::id(),
-                'name' => $request->name,
-                'email' => $request->email,
                 'phone' => $request->phone,
-                'address' => $request->address,
-                'total_amount' => str_replace('.', '', $request->total_amount), // Chuyển về dạng số
                 'payment_method' => $request->payment_method,
-                'order_status' => 'Chưa giao',
+                'address' => $request->address,
+                'total_amount' => str_replace('.', '', $request->total_amount),
+                'order_status' => 'Chưa gửi',
             ]);
-    
-            // 2. Lưu chi tiết đơn hàng
+
+            // 2. Lấy các món trong giỏ hàng
             $cartItems = Cart::where('user_id', Auth::id())->get();
-    
+
+            // 3. Thêm từng món vào bảng 'order_details'
             foreach ($cartItems as $item) {
                 OrderDetail::create([
                     'order_id' => $order->id,
@@ -54,18 +51,17 @@ class OrderController extends Controller
                     'price' => $item->food->price,
                 ]);
             }
-    
-            // 3. Xóa giỏ hàng sau khi đặt hàng
+
+            // 4. Xóa giỏ hàng sau khi đặt hàng
             Cart::where('user_id', Auth::id())->delete();
-    
+
             DB::commit();
             return redirect()->route('cart.index')->with('success', 'Đặt món thành công!');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+            return back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
     }
-    
     
 
     // Chi tiết đơn hàng
@@ -125,7 +121,7 @@ class OrderController extends Controller
     public function markDelivered($id)
 {
     $order = Order::findOrFail($id);
-    $order->order_status = 'Đã giao';
+    $order->order_status = 'Đã gửi';
     $order->save();
 
     return redirect()->route('orders.index')->with('success', 'Đơn hàng đã được cập nhật thành Đã giao.');

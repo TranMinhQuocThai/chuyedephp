@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Food;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
-
 class HomeController extends Controller
 {
     /**
@@ -27,7 +26,13 @@ class HomeController extends Controller
     public function index()
     {
         $foods = Food::limit(15)->get();
-        return view('home',compact('foods'));
+         // Danh sách ảnh cho carousel
+    $carouselImages = [
+        'carousel2.jpg',
+        'carousel1.jpg',
+        'carousel3.jpg'
+    ];
+        return view('home',compact('foods','carouselImages'));
     }
     public function sanpham(Request $request)
     {
@@ -36,18 +41,23 @@ class HomeController extends Controller
         $foods = Food::where('categories', 'food')
             ->when($search, function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%');
-            })->get();
+            })
+            ->get();
     
         $drinks = Food::where('categories', 'drink')
             ->when($search, function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%');
-            })->get();
+            })
+            ->get();
     
         return view('sanpham', compact('foods', 'drinks', 'search'));
     }
     
-
-    public function donhang()
+    public function gioithieu()
+{
+    return view('gioithieu');
+}
+public function donhang()
 {
     // Lấy danh sách đơn hàng của người dùng hiện tại
     $orders = Order::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();

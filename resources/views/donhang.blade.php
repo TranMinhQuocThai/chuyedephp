@@ -32,16 +32,21 @@
                         <td>{{ $order->payment_method }}</td>
                         <td>{{ number_format($order->total_amount, 0, ',', '.') }} VND</td>
                         <td>
-                            @if ($order->order_status === 'Chưa giao')
-                                <span class="badge bg-warning">Chưa giao</span>
+                            @if ($order->order_status === 'Chưa gửi')
+                                <span class="badge bg-warning">Chưa gửi</span>
                             @else
-                                <span class="badge bg-success">Đã giao</span>
+                                <span class="badge bg-success">Đã gửi</span>
                             @endif
                         </td>
                         <td>
                             <!-- Nút Chi tiết đơn hàng -->
                             <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#orderDetailModal" onclick="loadOrderDetails({{ $order->id }})">Chi tiết</button>
-
+                                     <!-- Nút Thanh toán (Chuyển khoản + Chưa gửi) -->
+                                     @if ($order->payment_method === 'Chuyển khoản' && $order->order_status === 'Chưa gửi')
+                                        <button class="btn btn-warning btn-sm" onclick="showQRCode({{ $order->id }}, {{ $order->total_amount }})">
+                                            Thanh toán
+                                        </button>
+                                    @endif
                             <!-- Nút Xóa -->
                             <form action="{{ route('orders.destroy', $order->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa đơn hàng này?');" style="display: inline-block;">
                                 @csrf
@@ -77,6 +82,26 @@
     </div>
 </div>
 
+    <!-- Modal QR Code Thanh toán -->
+    <div class="modal fade" id="qrCodeModal" tabindex="-1" aria-labelledby="qrCodeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="qrCodeModalLabel">QR Code Thanh toán</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>Quét mã QR bên dưới để thanh toán:</p>
+                    <img id="qrCodeImage" src="" alt="QR Code" class="img-fluid" style="max-width: 300px;">
+                    <p class="mt-2">Số tiền: <strong id="qrAmount"></strong> VND</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <!-- Script để load dữ liệu -->
 <script>
     function loadOrderDetails(orderId) {
@@ -94,5 +119,13 @@
                 document.getElementById('orderDetailContent').innerHTML = '<p>Không thể tải chi tiết đơn hàng.</p>';
             });
     }
+
+    // Hiển thị QR Code
+    function showQRCode(orderId, amount) {
+            let qrData = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=Thanh toán đơn hàng ID: ${orderId} - Số tiền: ${amount} VND`;
+            document.getElementById('qrCodeImage').src = qrData;
+            document.getElementById('qrAmount').innerText = amount.toLocaleString();
+            new bootstrap.Modal(document.getElementById('qrCodeModal')).show();
+        }
 </script>
 @endsection
