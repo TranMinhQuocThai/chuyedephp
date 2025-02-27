@@ -8,7 +8,7 @@
     <form action="{{ route('sanpham') }}" method="GET" class="mb-4">
         <div class="input-group">
             <input type="text" name="search" class="form-control" placeholder="Tìm kiếm sản phẩm..." value="{{ $search ?? '' }}">
-            <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+            <button class="btn btn-danger" type="submit">Tìm kiếm</button>
         </div>
     </form>
 
@@ -80,4 +80,5 @@
         </div>
     </div>
 </div>
+@include('layouts.footer');
 @endsection

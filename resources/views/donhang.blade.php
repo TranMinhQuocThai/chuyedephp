@@ -122,10 +122,21 @@
 
     // Hiển thị QR Code
     function showQRCode(orderId, amount) {
-            let qrData = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=Thanh toán đơn hàng ID: ${orderId} - Số tiền: ${amount} VND`;
-            document.getElementById('qrCodeImage').src = qrData;
-            document.getElementById('qrAmount').innerText = amount.toLocaleString();
-            new bootstrap.Modal(document.getElementById('qrCodeModal')).show();
-        }
+        // Thông tin tài khoản ngân hàng
+        const bankInfo = {
+            bankId: "970416",         // Mã ngân hàng ACB
+            accountNo: "38752307",   // Số tài khoản của bạn
+            accountName: "TRAN MINH QUOC THAI", // Tên tài khoản của bạn
+            amount: amount,
+            content: `Thanh toan don hang ${orderId}` // Nội dung chuyển khoản
+        };
+
+        // Tạo chuỗi dữ liệu theo định dạng QR Pay VietQR
+        const qrData = `https://api.vietqr.io/image/${bankInfo.bankId}-${bankInfo.accountNo}-compact.jpg?amount=${bankInfo.amount}&addInfo=${bankInfo.content}&accountName=${bankInfo.accountName}`;
+        
+        document.getElementById('qrCodeImage').src = qrData;
+        document.getElementById('qrAmount').innerText = amount.toLocaleString();
+        new bootstrap.Modal(document.getElementById('qrCodeModal')).show();
+    }
 </script>
 @endsection
